@@ -4,7 +4,7 @@
  * @Autor: zero
  * @Date: 2020-10-20 15:30:08
  * @LastEditors: zero
- * @LastEditTime: 2020-10-23 10:01:35
+ * @LastEditTime: 2020-10-26 14:35:16
 -->
 <template>
   <div class="home">
@@ -17,6 +17,7 @@
       {{msg}}
     </p>
     <p>vuex {{store.app.version}}</p>
+    <a-button type='primary' @click="setVersion">修改vuex版本</a-button>
   </div>
 </template>
 
@@ -37,10 +38,12 @@ export default {
     HelloWorld
   },
   setup(props: any, ctx: any) {
-    console.log(useStore().state.app.version, "vuex");
+    console.log(process.env,'process')
+    const store = useStore();
+    console.log(useStore().state.app.version, "vuex12");
     console.log(props, ctx);
     const data: DataProps = reactive({
-      girls: ["大脚", "刘英", "晓红"],
+      girls: ["大脚12", "刘英256", "晓红233"],
       selectGirl: "",
       selectGirlFun: (index: number) => {
         data.selectGirl = data.girls[index];
@@ -48,6 +51,10 @@ export default {
       msg: "Welcome to Your Vue3.0.js + TypeScript App",
       store: useStore().state
     });
+    const setVersion = (): void =>{
+       //useStore().commit('setVersion','修改的vuex版本')
+       store.commit('setVersion','修改的vuex')
+    }
 
     // 获取路由实例
     const router = useRouter();
@@ -63,6 +70,7 @@ export default {
 
     // 路由跳转
     const getHome = () => {
+      console.log('跳转33')
       router.push({
         path: "/about"
       });
@@ -81,7 +89,8 @@ export default {
     return {
       ...refData,
       getHome,
-      getValue
+      getValue,
+      setVersion
     };
   }
 };

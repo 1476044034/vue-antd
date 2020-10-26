@@ -4,20 +4,24 @@
  * @Autor: zero
  * @Date: 2020-10-20 14:15:06
  * @LastEditors: zero
- * @LastEditTime: 2020-10-22 16:34:27
+ * @LastEditTime: 2020-10-23 11:18:02
  */
 import { createRouter,createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import {defineAsyncComponent} from 'vue'
 import Layout from '../views/layout/index.vue'
 
 const routes: Array<RouteRecordRaw> = [
-  // {
-  //   path: '/',
-  //   redirect:"/home"
-  // },
+  {
+    path: '/',
+    redirect:"/home",
+    meta:{
+      hidden:true
+    },
+    name:'看板'
+  },
   {
     path:'/home',
-    name: 'Home',
+    name: '会员',
     component: Layout,
     redirect:{
       name:'home'

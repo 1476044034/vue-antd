@@ -4,7 +4,7 @@
  * @Autor: zero
  * @Date: 2020-10-20 15:44:37
  * @LastEditors: zero
- * @LastEditTime: 2020-10-22 19:27:01
+ * @LastEditTime: 2020-10-26 15:02:50
 -->
 <template>
   <div class="hello">
@@ -20,15 +20,24 @@ export default defineComponent({
   props: {
     msg: String
   },
+  emits: ["submit", "update:msg"],
   setup(props, ctx) {
-    console.log(props,'props')
+    console.log(props, "props");
     function submit(): void {
       props.msg && ctx.emit("submit", "321312");
     }
     function change(): void {
-      console.log('修改')
+      console.log("修改");
       ctx.emit("update:msg", "嫦娥msg");
     }
+    
+    function getData(n: number): number {
+      if (n == 1) {
+        return 1;
+      }
+      return n * getData(n - 1);
+    }
+    console.log(getData(3));
 
     return {
       submit,
