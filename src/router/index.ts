@@ -4,7 +4,7 @@
  * @Autor: zero
  * @Date: 2020-10-20 14:15:06
  * @LastEditors: zero
- * @LastEditTime: 2020-10-23 11:18:02
+ * @LastEditTime: 2020-11-14 12:40:20
  */
 import { createRouter,createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import {defineAsyncComponent} from 'vue'

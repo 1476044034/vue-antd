@@ -4,17 +4,16 @@
  * @Autor: zero
  * @Date: 2020-10-20 15:30:08
  * @LastEditors: zero
- * @LastEditTime: 2020-10-26 14:35:16
+ * @LastEditTime: 2020-11-14 13:03:39
 -->
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld @submit='getValue' v-model="msg" />
     <button v-for="(item,index) in girls " :key="index" @click="selectGirlFun(index)">{{item}}</button>
     <p>{{selectGirl}}</p>
     <button @click="getHome">about</button>
     <p>
-      {{msg}}
+      {{msg}}子组件参数
     </p>
     <p>vuex {{store.app.version}}</p>
     <a-button type='primary' @click="setVersion">修改vuex版本</a-button>
@@ -24,8 +23,9 @@
 <script lang="ts">
 import { reactive, toRefs, watch, onBeforeMount, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
+import * as Types from '../store/modules/actions-types';
 import { useStore } from "vuex";
+import { GloableState } from '@/store';
 interface DataProps {
   girls: any;
   selectGirl: string;
@@ -35,11 +35,11 @@ interface DataProps {
 }
 export default {
   components: {
-    HelloWorld
+    
   },
   setup(props: any, ctx: any) {
     console.log(process.env,'process')
-    const store = useStore();
+    const store = useStore<GloableState>();
     console.log(useStore().state.app.version, "vuex12");
     console.log(props, ctx);
     const data: DataProps = reactive({
@@ -48,12 +48,11 @@ export default {
       selectGirlFun: (index: number) => {
         data.selectGirl = data.girls[index];
       },
-      msg: "Welcome to Your Vue3.0.js + TypeScript App",
+      msg: "默认参数",
       store: useStore().state
     });
     const setVersion = (): void =>{
-       //useStore().commit('setVersion','修改的vuex版本')
-       store.commit('setVersion','修改的vuex')
+       store.commit(`app/${Types.SET_VERSION}`,'修改的vuex')
     }
 
     // 获取路由实例
@@ -75,9 +74,7 @@ export default {
         path: "/about"
       });
     };
-    const getValue = (val: string) => {
-      console.log(val);
-    };
+   
     onBeforeMount(() => {
       console.log("onBeforeMount");
     });
@@ -89,7 +86,6 @@ export default {
     return {
       ...refData,
       getHome,
-      getValue,
       setVersion
     };
   }

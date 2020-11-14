@@ -4,46 +4,39 @@
  * @Autor: zero
  * @Date: 2020-10-20 14:15:06
  * @LastEditors: zero
- * @LastEditTime: 2020-10-22 14:00:23
+ * @LastEditTime: 2020-11-12 11:08:40
 -->
 <template>
   <div>
-    <button @click="increment">
-      Count is: {{ state.count }}, double is: {{ state.double }} time is: {{ state.time }}
-    </button>
-    <p>{{name}}{{age}}</p>
+   
+    <HelloWorld v-model:msg='msg' @msg='getMsg'></HelloWorld>
   </div>
 </template>
 
 <script lang="ts">
-import { reactive, computed, onMounted,ref } from "vue";
-import dayjs from "dayjs";
+import { reactive,toRefs } from "vue";
+// import { useStore } from "vuex";
+
+import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
 interface Count {
-  count: number;
-  double: object;
-  time?: string;
+ 
+  msg: string;
 }
 export default {
+  components: {
+    HelloWorld
+  },
   setup() {
     const state: any = reactive<Count>({
-      count: 0,
-      double: computed(() => state.count * 2),
-      time: dayjs().format("YYYY-MM-DD")
+      msg: "初始化msg"
     });
-    const  age: any = ref(0)
-    console.log(typeof state);
-    function increment() {
-      state.count++;
-      age.value = 100;
+    const getMsg = function (val: string){
+       console.log(val,'valchild')
     }
-    onMounted(() => {
-      console.log('okkk')
-    });
+   
     return {
-      state,
-      increment,
-      name: "123",
-      age
+      ...toRefs(state),
+      getMsg
     };
   }
 };
