@@ -4,7 +4,7 @@
  * @Autor: zero
  * @Date: 2020-10-22 15:04:58
  * @LastEditors: zero
- * @LastEditTime: 2020-10-23 11:15:38
+ * @LastEditTime: 2020-11-15 09:43:24
 -->
 <template>
   <div class="left-nav">
@@ -25,7 +25,7 @@
             </template>
 
           </a-sub-menu>
-          <a-menu-item  v-if="!item.children && !item.meta.hidden" :key="item.path">
+          <a-menu-item v-if="!item.children && !item.meta.hidden" :key="item.path">
             <router-link :to="item.path">{{item.name}}</router-link>
           </a-menu-item>
         </template>
@@ -35,8 +35,9 @@
   </div>
 </template>
 <script lang='ts'>
-import { reactive, toRefs, defineComponent } from "vue";
+import { reactive, toRefs, defineComponent, computed } from "vue";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 export default defineComponent({
   components: {},
@@ -44,16 +45,20 @@ export default defineComponent({
     console.log(useRouter(), "useRoute");
     const state = reactive({
       selectedKeys: [],
-      collapsed: false,
       openKeys: [],
       routers: useRouter().options.routes
+    });
+    const store = useStore();
+    const collapsed = computed(() => {
+      return store.state.app.collapsed;
     });
     const openChange = (openKeys: string[]) => {
       console.log(openKeys, "openKeys");
     };
     return {
       ...toRefs(state),
-      openChange
+      openChange,
+      collapsed
     };
   }
 });

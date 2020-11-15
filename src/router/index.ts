@@ -4,32 +4,39 @@
  * @Autor: zero
  * @Date: 2020-10-20 14:15:06
  * @LastEditors: zero
- * @LastEditTime: 2020-11-14 12:40:20
+ * @LastEditTime: 2020-11-14 19:27:09
  */
-import { createRouter,createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import {defineAsyncComponent} from 'vue'
-import Layout from '../views/layout/index.vue'
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import { defineAsyncComponent } from 'vue'
+import Layout from '@/layout/index.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect:"/home",
-    meta:{
-      hidden:true
-    },
-    name:'看板'
+    redirect: "/login",
+    meta: {
+      hidden: true,
+    }
   },
   {
-    path:'/home',
+    path: '/login',
+    name: 'Login',
+    meta: {
+      hidden: true
+    },
+    component: () => import('@/views/login/index.vue')
+  },
+  {
+    path: '/home',
     name: '会员',
     component: Layout,
-    redirect:{
-      name:'home'
+    redirect: {
+      name: 'home'
     },
-    children:[
+    children: [
       {
-        path:"home",
-        name:'home',
+        path: "home",
+        name: 'home',
         component: defineAsyncComponent({
           loader: () => import('@/views/Home.vue'),
           delay: 200,
@@ -38,18 +45,18 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
-  
+
   {
     path: '/about',
     name: 'About',
     component: Layout,
-    redirect:{
-      name:'about'
+    redirect: {
+      name: 'about'
     },
-    children:[
+    children: [
       {
-        path:"about",
-        name:'about',
+        path: "about",
+        name: 'about',
         component: defineAsyncComponent({
           loader: () => import('@/views/About.vue'),
           delay: 200,
@@ -63,6 +70,11 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHashHistory(process.env.BASE_URL),
   routes
+})
+router.beforeEach((to, from, next) => {
+  console.log(to, from)
+  // next({ name: 'login' })
+  next()
 })
 
 export default router

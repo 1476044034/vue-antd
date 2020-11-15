@@ -4,7 +4,7 @@
  * @Autor: zero
  * @Date: 2020-10-20 15:30:08
  * @LastEditors: zero
- * @LastEditTime: 2020-11-14 13:03:39
+ * @LastEditTime: 2020-11-15 09:48:57
 -->
 <template>
   <div class="home">
@@ -17,15 +17,17 @@
     </p>
     <p>vuex {{store.app.version}}</p>
     <a-button type='primary' @click="setVersion">修改vuex版本</a-button>
+    <a-button type='primary' @click="logout">logout</a-button>
+    <div style="width:100%;height:800px"></div>
   </div>
 </template>
 
 <script lang="ts">
 import { reactive, toRefs, watch, onBeforeMount, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import * as Types from '../store/modules/actions-types';
+import * as Types from "../store/modules/actions-types";
 import { useStore } from "vuex";
-import { GloableState } from '@/store';
+import { GloableState } from "@/store";
 interface DataProps {
   girls: any;
   selectGirl: string;
@@ -34,11 +36,9 @@ interface DataProps {
   store: object;
 }
 export default {
-  components: {
-    
-  },
+  components: {},
   setup(props: any, ctx: any) {
-    console.log(process.env,'process')
+    console.log(process.env, "process");
     const store = useStore<GloableState>();
     console.log(useStore().state.app.version, "vuex12");
     console.log(props, ctx);
@@ -51,9 +51,9 @@ export default {
       msg: "默认参数",
       store: useStore().state
     });
-    const setVersion = (): void =>{
-       store.commit(`app/${Types.SET_VERSION}`,'修改的vuex')
-    }
+    const setVersion = (): void => {
+      store.commit(`app/${Types.SET_VERSION}`, "修改的vuex");
+    };
 
     // 获取路由实例
     const router = useRouter();
@@ -69,12 +69,17 @@ export default {
 
     // 路由跳转
     const getHome = () => {
-      console.log('跳转33')
+      console.log("跳转33");
       router.push({
         path: "/about"
       });
     };
-   
+    const logout = (): void => {
+      router.push({
+        path: "/"
+      });
+    };
+
     onBeforeMount(() => {
       console.log("onBeforeMount");
     });
@@ -86,7 +91,8 @@ export default {
     return {
       ...refData,
       getHome,
-      setVersion
+      setVersion,
+      logout
     };
   }
 };
