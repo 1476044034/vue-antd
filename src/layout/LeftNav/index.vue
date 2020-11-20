@@ -4,13 +4,13 @@
  * @Autor: zero
  * @Date: 2020-10-22 15:04:58
  * @LastEditors: zero
- * @LastEditTime: 2020-11-15 09:43:24
+ * @LastEditTime: 2020-11-20 14:35:42
 -->
 <template>
   <div class="left-nav">
-    <a-layout-sider :collapsed="collapsed" :trigger="null" collapsible>
+    <a-layout-sider :collapsed="collapsed" :trigger='null' collapsible>
       <div class="logo" />
-      <a-menu mode="inline" v-model:selectedKeys="selectedKeys">
+      <a-menu mode="inline" v-model:selectedKeys="selectedKeys" v-model:openKeys="openKeys">
 
         <template v-for="(item) in routers">
           <a-sub-menu v-if="item.children && item.children.length >= 1" :key="item.path">
@@ -34,35 +34,44 @@
     </a-layout-sider>
   </div>
 </template>
-<script lang='ts'>
-import { reactive, toRefs, defineComponent, computed } from "vue";
-import { useRouter } from "vue-router";
+<script lang="ts">
+import { defineComponent, reactive, toRefs, computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import { useStore } from "vuex";
-
+interface DataProps {
+  routers: any;
+  openKeys?: any;
+}
 export default defineComponent({
-  components: {},
   setup() {
-    console.log(useRouter(), "useRoute");
-    const state = reactive({
-      selectedKeys: [],
-      openKeys: [],
-      routers: useRouter().options.routes
-    });
+    const test = 1;
     const store = useStore();
+    const route = useRoute();
+    const state: DataProps = reactive({
+      routers: useRouter().options.routes,
+      openKeys: ["/home"]
+    });
     const collapsed = computed(() => {
       return store.state.app.collapsed;
     });
-    const openChange = (openKeys: string[]) => {
-      console.log(openKeys, "openKeys");
-    };
-    return {
-      ...toRefs(state),
-      openChange,
-      collapsed
-    };
+    const selectedKeys = computed(() => {
+      return [route.path];
+    });
+    // const openKeys = computed(() => {
+    //   const currentFullPath: string = store.state.app.currentFullPath;
+    //   if ((openKeys as any).length == 0) {
+    //     return ["/" + currentFullPath.split("/")[1]];
+    //   } else {
+    //     if ((openKeys as any)[0] != "/" + currentFullPath.split("/")[1]) {
+    //       return ["/" + currentFullPath.split("/")[1]];
+    //     }
+    //   }
+    // });
+    return { test, ...toRefs(state), collapsed, selectedKeys };
   }
 });
 </script>
+
 
 <style lang="less" scoped>
 .left-nav {

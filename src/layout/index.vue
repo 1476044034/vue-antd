@@ -4,7 +4,7 @@
  * @Autor: zero
  * @Date: 2020-10-22 13:56:26
  * @LastEditors: zero
- * @LastEditTime: 2020-11-15 09:56:41
+ * @LastEditTime: 2020-11-20 14:32:22
 -->
 <template>
   <a-layout id="components-layout-demo-custom-trigger">
@@ -25,27 +25,32 @@
   </a-layout>
 </template>
 <script>
-import { reactive, toRefs, computed } from 'vue';
+import { computed, defineComponent } from 'vue';
 import leftNav from './LeftNav/index.vue';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
 } from '@ant-design/icons-vue';
 import { useStore } from 'vuex';
+import { useRoute } from 'vue-router'
 import * as Types from '@/store/modules/actions-types'
-export default {
+
+export default defineComponent({
   components: {
     MenuUnfoldOutlined,
     MenuFoldOutlined,
     leftNav
   },
   setup() {
-    const state = reactive({
-      selectedKeys1: ['2'],
-      selectedKeys2: ['1'],
-      openKeys: ['sub1']
-    })
+    const route = useRoute();
     const store = useStore();
+    console.log(route, 'route')
+    // watch(route, (val) => {
+    //   console.log(val, 'okkk')
+    //   store.commit(`app/${Types.SET_FULLPATH}`, val.fullPath);
+    // }, {
+    //     immediate: true
+    //   })
     const collapsed = computed(() => {
       return store.state.app.collapsed;
     });
@@ -53,12 +58,12 @@ export default {
       store.commit(`app/${Types.TOGGLE_SILDEBAR}`, !store.state.app.collapsed)
     }
     return {
-      ...toRefs(state),
+
       toggleSideBar,
       collapsed
     }
   }
-};
+});
 </script>
 <style lang="less" scoped>
 .header {

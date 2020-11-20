@@ -4,10 +4,9 @@
  * @Autor: zero
  * @Date: 2020-10-20 14:15:06
  * @LastEditors: zero
- * @LastEditTime: 2020-11-14 19:27:09
+ * @LastEditTime: 2020-11-17 14:59:54
  */
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import { defineAsyncComponent } from 'vue'
 import Layout from '@/layout/index.vue'
 
 const routes: Array<RouteRecordRaw> = [
@@ -37,11 +36,12 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "home",
         name: 'home',
-        component: defineAsyncComponent({
-          loader: () => import('@/views/Home.vue'),
-          delay: 200,
-          timeout: 3000,
-        })
+        component: () => import('@/views/Home.vue')
+      },
+      {
+        path: "about1",
+        name: 'about1',
+        component: () => import('@/views/About.vue')
       }
     ]
   },
@@ -57,11 +57,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "about",
         name: 'about',
-        component: defineAsyncComponent({
-          loader: () => import('@/views/About.vue'),
-          delay: 200,
-          timeout: 3000,
-        })
+        component: () => import('@/views/About.vue')
       }
     ]
   }
@@ -71,10 +67,10 @@ const router = createRouter({
   history: createWebHashHistory(process.env.BASE_URL),
   routes
 })
-router.beforeEach((to, from, next) => {
-  console.log(to, from)
-  // next({ name: 'login' })
-  next()
-})
+// router.beforeEach((to, from, next) => {
+//   console.log(to, from)
+//   // next({ name: 'login' })
+//   next()
+// })
 
 export default router

@@ -4,7 +4,7 @@
  * @Autor: zero
  * @Date: 2020-10-23 09:50:49
  * @LastEditors: zero
- * @LastEditTime: 2020-11-15 09:43:53
+ * @LastEditTime: 2020-11-18 14:21:15
  */
 import { Module } from 'vuex';
 import { GloableState } from '..';
@@ -13,6 +13,7 @@ export interface AppProps {
   version: string;
   course: Course;
   collapsed: boolean;
+  currentFullPath: string;
 }
 export enum Course {
   vue,
@@ -22,7 +23,8 @@ export enum Course {
 const state: AppProps = {
   version: '默认版本',
   course: Course.vue,
-  collapsed: false
+  collapsed: false,
+  currentFullPath: ''
 }
 
 // AppProps
@@ -38,6 +40,9 @@ const app: Module<AppProps, GloableState> = { //GloableState 全局属性
     },
     [Types.TOGGLE_SILDEBAR](state: AppProps, val: boolean) {
       state.collapsed = val;
+    },
+    [Types.SET_FULLPATH](state: AppProps, payload: string) {
+      state.currentFullPath = payload;
     }
 
 

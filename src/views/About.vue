@@ -4,22 +4,21 @@
  * @Autor: zero
  * @Date: 2020-10-20 14:15:06
  * @LastEditors: zero
- * @LastEditTime: 2020-11-12 11:08:40
+ * @LastEditTime: 2020-11-17 14:59:24
 -->
 <template>
   <div>
-   
+    12312
     <HelloWorld v-model:msg='msg' @msg='getMsg'></HelloWorld>
   </div>
 </template>
 
 <script lang="ts">
-import { reactive,toRefs } from "vue";
+import { reactive, toRefs } from "vue";
 // import { useStore } from "vuex";
 
 import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
 interface Count {
- 
   msg: string;
 }
 export default {
@@ -30,10 +29,10 @@ export default {
     const state: any = reactive<Count>({
       msg: "初始化msg"
     });
-    const getMsg = function (val: string){
-       console.log(val,'valchild')
-    }
-   
+    const getMsg = function(val: string) {
+      console.log(val, "valchild");
+    };
+
     return {
       ...toRefs(state),
       getMsg
