@@ -4,7 +4,7 @@
  * @Autor: zero
  * @Date: 2020-10-22 15:04:58
  * @LastEditors: zero
- * @LastEditTime: 2020-11-20 14:35:42
+ * @LastEditTime: 2020-11-20 15:33:50
 -->
 <template>
   <div class="left-nav">
@@ -55,6 +55,7 @@ export default defineComponent({
       return store.state.app.collapsed;
     });
     const selectedKeys = computed(() => {
+      console.log(route.path, "lfc 逗比");
       return [route.path];
     });
     // const openKeys = computed(() => {
